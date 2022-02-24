@@ -1,3 +1,40 @@
-body {
-    background-color: antiquewhite;
+html {
+    box-sizing: border-box;
+    font-size: 16px;
 }
+
+body {
+    display: grid;
+    grid-template-rows: 4rem 1fr 2rem;
+    height: 100vh;
+    background-color: #fafafa;
+    color: #262626;
+}
+
+main {
+    height: calc(100vh - 6rem);
+    background-color: #e2e8f0;    
+}
+
+header {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 5px rgba(203, 213, 225, 0.5);
+    z-index: 1;
+
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 -10px 5px rgba(203, 213, 225, 0.5);
+    z-index: 1;
+}
+
