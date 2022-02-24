@@ -3,6 +3,7 @@ html {
     font-size: 16px;
 }
 
+/*Main layout styling*/
 body {
     display: grid;
     grid-template-rows: 4rem 1fr 2rem;
@@ -17,13 +18,11 @@ main {
 }
 
 header {
-    
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 10px 5px rgba(203, 213, 225, 0.5);
     z-index: 1;
-
 }
 
 h1 {
@@ -37,4 +36,33 @@ footer {
     box-shadow: 0 -10px 5px rgba(203, 213, 225, 0.5);
     z-index: 1;
 }
+/*end main layout styling*/
 
+/*gameboard styling*/
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gameboard {
+    background-color: #60a5fa;
+    width: 600px;
+    height: 600px;  
+    border-radius: 20px; 
+    box-shadow: 5px 5px 5px rgba(193, 203, 215, 0.6), -5px -5px 5px rgba(193, 203, 215, 0.6);
+    z-index: 1;
+    padding: 15px;
+
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.game-square {
+    background-color: #fafafa;
+}
+
+.game-square:hover {
+    background-color: #e5e5e5;
+}
+/*end gameboard styling*/
