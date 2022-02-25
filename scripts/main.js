@@ -1,9 +1,7 @@
 //A module for all properties and functions related to the gameboard
 const Gameboard = (() => {
 
-    let _gameboard = ['X', 'O', 'X',
-                     'X', 'O', 'O',
-                     'X', 'X', 'O'];
+    let _gameboard = ['','','','','','','','',''];
 
     const getGameboard = () => {
         return _gameboard;
@@ -13,7 +11,16 @@ const Gameboard = (() => {
         _gameboard = ['','','','','','','','',''];
     }
 
-    return {getGameboard, clearBoard};
+    const addToBoard = (square) => {
+        if (GameControl.getTurn() === 1) {
+            _gameboard[square] = 'X';
+        }
+        else {
+            _gameboard[square] = 'O';
+        }
+    }
+
+    return {getGameboard, clearBoard, addToBoard};
 })();
 
 //a module for all functions related to display controls
@@ -43,7 +50,35 @@ const GameControl = (() => {
 
     const getTurn = () => _playerTurn;
 
-    return {getTurn};
+    const _changeTurn = () => {
+        if (_playerTurn === 1) {
+            _playerTurn = 2;
+        }
+        else {
+            _playerTurn = 1;
+        }
+    }
+
+    const _gameTurn = (square) => {
+        Gameboard.addToBoard(square);
+        _changeTurn();
+        DisplayController.displayBoard();
+    }
+
+    const gameInit = () => {
+        Gameboard.clearBoard();
+        for (let i = 0; i < 9; i++) {
+            document.querySelector('.square'+i).addEventListener('click', function (){
+                _gameTurn(i)
+            });
+        }
+    }
+
+    const gameOver = () => {
+        
+    }
+
+    return {getTurn, gameInit};
 })();
 
 //a factory function to create player objects
@@ -52,11 +87,14 @@ const Player = () => {
 
     const getScore = () => _score;
 
-    return {getScore};
+    const setScore = change => {
+        _score += change;
+    }
+
+    return {getScore, setScore};
 }
 
 const player1 = Player();
 const player2 = Player();
 
-DisplayController.displayBoard();
-DisplayController.displayScore(player1, player2);
+GameControl.gameInit();
