@@ -65,6 +65,9 @@ main {
 
 .game-square {
     background-color: #fafafa;
+    padding: 2rem;
+    font-size: 8rem;
+    text-align: center;
 }
 
 .game-square:hover {
