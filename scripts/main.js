@@ -158,6 +158,7 @@ const GameControl = (() => {
                 _gameTurn(i)
             });
         }
+        document.querySelector('.new-game').addEventListener('click', _newGame);
     }
 
     const _gameOver = () => {
@@ -179,17 +180,14 @@ const GameControl = (() => {
         //you can actually see the last symbol show up, and then the screen immediately resets to a new board
         //This gives browser a moment to update before continuing running the javascript
         //The browser runs on a single thread, so it cannot update screen until the JS finishes running
-        setTimeout(function() { _newGame(); }, 1);
+        //setTimeout(function() { _newGame(); }, 1);
 		
     }
 	
 	const _newGame = () => {
-		let newGame = prompt('Would you like to play again? y/n');
-		if (newGame === 'y') {
-			Gameboard.clearBoard();
-            _playerTurn = 1;
-            DisplayController.displayScore(player1, player2);
-		}
+        Gameboard.clearBoard();
+        _playerTurn = 1;
+        DisplayController.displayScore(player1, player2);
 	}
 
     return {getTurn, gameInit};
