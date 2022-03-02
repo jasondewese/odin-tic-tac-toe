@@ -78,7 +78,20 @@ const Gameboard = (() => {
 		return false;
 	}
 
-    return {getGameboard, clearBoard, addToBoard, threeInARow};
+    const isBoardFull = () => {
+        let isFull = false;
+        for (let i = 0; i < _gameboard.length; i++) {
+            if (_gameboard[i] !== '') {
+                isFull = true;
+            } 
+            else {
+                return false;
+            }
+        }
+        return isFull;
+    }
+
+    return {getGameboard, clearBoard, addToBoard, threeInARow, isBoardFull};
 })();
 
 //a module for all functions related to display controls
@@ -123,16 +136,17 @@ const GameControl = (() => {
     }
 
     const _gameTurn = (square) => {
-        Gameboard.addToBoard(square);
-        DisplayController.displayBoard();
-		if (Gameboard.threeInARow() ) {
-			_gameOver();
-		}
-        else {
-            _changeTurn();
-        }
-		
-		
+        //only allow turn in empty squares
+        if (document.querySelector('.square'+square).textContent === '') {
+            Gameboard.addToBoard(square);
+            DisplayController.displayBoard();
+            if (Gameboard.threeInARow() || Gameboard.isBoardFull()) {
+                _gameOver();
+            }
+            else {
+                _changeTurn();
+            }
+        }		
     }
 
     const gameInit = () => {
@@ -150,7 +164,10 @@ const GameControl = (() => {
 		
         console.log('Game Over!');
 		console.log(`Player ${getTurn()} wins!`);
-		if (getTurn() === 1) {
+		if (Gameboard.isBoardFull() && !Gameboard.threeInARow()) {
+            console.log('The game is a tie!');
+        }
+        else if (getTurn() === 1) {
 			player1.setScore(1);
 		}
 		else {
