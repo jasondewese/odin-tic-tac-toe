@@ -1,6 +1,7 @@
 //a factory function to create player objects
 const Player = () => {
     let _score = 0;
+    let _name = '';
 
     const getScore = () => _score;
 
@@ -8,7 +9,15 @@ const Player = () => {
         _score += change;
     }
 
-    return {getScore, setScore};
+    const setName = name => {
+        _name = name;
+    }
+
+    const getName = () => {
+        return _name;
+    }
+
+    return {getScore, setScore, setName, getName};
 }
 
 
@@ -111,8 +120,14 @@ const DisplayController = (() => {
         p1Score.textContent = player1.getScore();
         p2Score.textContent = player2.getScore();
     }
+    
+    const displayNames = (player1, player2) => {
+        document.querySelector('.player-one-label').textContent = player1.getName() + ': ';
+        document.querySelector('.player-two-label').textContent = player2.getName() + ': ';
+    }
 
-    return {displayBoard, displayScore};
+
+    return {displayBoard, displayScore, displayNames};
 })();
 
 
@@ -120,6 +135,7 @@ const DisplayController = (() => {
 //a module for functions affecting the overall flow of the game
 const GameControl = (() => {
     let _playerTurn = 1;
+    let _isGameOver = false;
 	
 	const player1 = Player();
 	const player2 = Player();
@@ -137,7 +153,7 @@ const GameControl = (() => {
 
     const _gameTurn = (square) => {
         //only allow turn in empty squares
-        if (document.querySelector('.square'+square).textContent === '') {
+        if (!_isGameOver && document.querySelector('.square'+square).textContent === '') {
             Gameboard.addToBoard(square);
             DisplayController.displayBoard();
             if (Gameboard.threeInARow() || Gameboard.isBoardFull()) {
@@ -150,8 +166,12 @@ const GameControl = (() => {
     }
 
     const gameInit = () => {
+
+        player1.setName(document.querySelector('#player1').value);
+        player2.setName(document.querySelector('#player2').value);
         Gameboard.clearBoard();
 		_playerTurn = 1;
+        DisplayController.displayNames(player1, player2);
 		DisplayController.displayScore(player1, player2);
         for (let i = 0; i < 9; i++) {
             document.querySelector('.square'+i).addEventListener('click', function (){
@@ -163,18 +183,27 @@ const GameControl = (() => {
 
     const _gameOver = () => {
 		
-        console.log('Game Over!');
-		console.log(`Player ${getTurn()} wins!`);
+        console.log('Game Over!');		
 		if (Gameboard.isBoardFull() && !Gameboard.threeInARow()) {
             console.log('The game is a tie!');
+            _isGameOver = true;
+            document.querySelector('.player-one-result').style.zIndex = 1;
+            document.querySelector('.player-one-result').textContent = `The game is a draw!`;
+            document.querySelector('.player-two-result').style.zIndex = 1;
+            document.querySelector('.player-two-result').textContent = `The game is a draw!`;
         }
         else if (getTurn() === 1) {
 			player1.setScore(1);
+            _isGameOver = true;
+            document.querySelector('.player-one-result').style.zIndex = 1;
+            document.querySelector('.player-one-result').textContent = `${player1.getName()} wins!`;
 		}
 		else {
 			player2.setScore(1);
+            _isGameOver = true;
+            document.querySelector('.player-two-result').style.zIndex = 1;
+            document.querySelector('.player-two-result').textContent = `${player2.getName()} wins!`;
 		}
-        console.log(player1.getScore(), player2.getScore());
 		DisplayController.displayScore(player1, player2);
         //setTimeout because screen will not update until _gameOver returns, so _newGame will be called before
         //you can actually see the last symbol show up, and then the screen immediately resets to a new board
@@ -185,8 +214,11 @@ const GameControl = (() => {
     }
 	
 	const _newGame = () => {
+        _isGameOver = false;
         Gameboard.clearBoard();
         _playerTurn = 1;
+        document.querySelector('.player-one-result').style.zIndex = -1;
+        document.querySelector('.player-two-result').style.zIndex = -1;
         DisplayController.displayScore(player1, player2);
 	}
 
@@ -194,6 +226,8 @@ const GameControl = (() => {
 })();
 
 
-
-
-GameControl.gameInit();
+//The 'Start Game' button will begin the tic-tac-toe game and hide the initial name entry box
+document.querySelector('#start-new-game').addEventListener('click', function() {
+    document.querySelector('#gray-out').style.display = 'none'; //hide name entry fields
+    GameControl.gameInit();
+});

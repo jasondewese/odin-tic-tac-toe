@@ -19,6 +19,7 @@
     </header>
     <main class="main">
         <div class="player-one player-label">
+            <div class="player-one-result">Player 1 Wins!</div>
             <div class="score player-one-label">Player 1: &nbsp; </div>
             <div class="player-one-score">Score</div>
         </div>
@@ -38,8 +39,21 @@
         </div>
         
         <div class="player-two player-label">
+            <div class="player-two-result">Player 2 Wins!</div>
             <div class="score player-two-label">Player 2: &nbsp;</div>
             <div class="player-two-score">Score</div>
+        </div>
+
+        <div class="gray-out" id="gray-out">
+            <div class="new-game-wrapper">
+                <form class="new-game-form" action="" autocomplete="off">
+                    <div class="form-title">Enter your names</div>
+                    <input type="text" placeholder="player1" name="player1" id="player1">
+                    <input type="text" placeholder="player2" name="player2" id="player2">
+                                      
+                    <button type="button" id="start-new-game">Start game</button>
+                </form>
+            </div>
         </div>
     </main>
     <footer class="footer">

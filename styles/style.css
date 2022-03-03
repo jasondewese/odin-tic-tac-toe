@@ -37,6 +37,7 @@ footer {
     box-shadow: 0 -10px 5px rgba(203, 213, 225, 0.5);
     z-index: 1;
 }
+
 /*end main layout styling*/
 
 /*gameboard styling*/
@@ -60,8 +61,22 @@ main {
 }
 .player-label {
     font-size: 2rem;
-    display: flex;
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+    gap: 30px;
 }
+
+.player-one-result, .player-two-result {
+    grid-area: 1 / 1 / 2 / 3;
+    background-color: #60a5fa;
+    color: #fafafa;
+    padding: 1rem;
+    border-radius: 20px;
+    /*be invisible by default*/
+    z-index: -1;
+}
+
+
 
 .game-square {
     background-color: #fafafa;
@@ -97,3 +112,91 @@ main {
     cursor: pointer;
 }
 /*end gameboard styling*/
+
+/***New Book Menu Styling***/
+
+.gray-out {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.4);
+    
+    /*do not show by default. script.js changes to 'block' when should be visible*/
+    display: block;
+    
+}
+.new-game-wrapper {
+    height: 400px;
+    width: 350px;
+    background-color: #e2e8f0;
+    border-radius: 20px;
+    padding: 25px;
+    
+    position:fixed;
+    top: 250px;
+    left: calc(50% - 200px);
+    z-index:3;
+    
+}
+
+.new-game-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.new-game-form input {
+    height: 2rem;
+    width: 80%;
+    border: none;
+}
+
+#is-read {
+    width: 20px;
+}
+
+.status-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+form button {
+    font-size: 1.5rem;
+    width: 10rem;
+    height: 2.5rem;
+    background-color: #3b82f6;
+    border: none;
+    border-radius: 20px;
+    color: #fafafa;
+}
+
+form > div.form-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+form input {
+    border-radius:8px;
+    padding-left: 10px;
+    height: 2rem;
+    font-size: 1.5rem;
+}
+
+form input::placeholder {
+    font-size: 1.25rem;
+}
+
+form button:hover {
+    border: 1px black solid;
+    cursor: pointer;
+}
+
+
+/***End new book styling***/
